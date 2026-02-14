@@ -1,0 +1,393 @@
+// src/pages/CustomTourDetail.tsx
+import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowLeftIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
+import { Navbar } from '../components/layout/Navbar';
+import { Footer } from '../components/layout/Footer';
+
+const tourData = {
+  1: {
+    id: 1,
+    title: "Tech & Innovation Experiences",
+    subtitle: "Technology • Media • Digital Content",
+    description: "Experience China's technological advancements and digital innovation landscape through exclusive access to leading companies, hands-on workshops, and cutting-edge media production facilities. Perfect for tech enthusiasts, content creators, and innovation seekers.",
+    longDescription: "Our Tech & Innovation Experiences offer unprecedented access to China's rapidly evolving technology scene. From corporate headquarters to startup incubators, we provide behind-the-scenes access that typical tourists never see. These experiences are designed for professionals, students, and anyone interested in understanding China's position as a global technology leader.",
+    images: [
+      "/images/tours/tech1.jpg",
+      "/images/tours/tech2.jpg",
+      "/images/tours/tech3.jpg",
+      "/images/tours/tech4.jpg"
+    ],
+    highlights: [
+      "Exclusive corporate access not available to public",
+      "Hands-on workshops with industry professionals",
+      "Social media and content creation opportunities",
+      "Networking with local innovators and entrepreneurs"
+    ],
+    color: "blue",
+    experiences: [
+      {
+        title: "Corporate Innovation Tours",
+        description: "Visit leading Chinese tech companies and innovation centers",
+        details: ["Factory floor tours", "R&D lab visits", "Product demonstrations", "Q&A with engineers"]
+      },
+      {
+        title: "Digital Media Production",
+        description: "Create professional content with state-of-the-art equipment",
+        details: ["Drone filming sessions", "Live streaming setups", "360° VR content creation", "Social media content production"]
+      },
+      {
+        title: "Startup Ecosystem",
+        description: "Explore China's vibrant startup and innovation culture",
+        details: ["Incubator visits", "Startup pitch sessions", "Co-working space tours", "Meet with founders"]
+      },
+      {
+        title: "Tech Workshops",
+        description: "Hands-on learning experiences with emerging technologies",
+        details: ["AI and robotics workshops", "IoT device building", "App development sessions", "Tech product testing"]
+      }
+    ]
+  },
+  2: {
+    id: 2,
+    title: "Premium Cultural Experiences",
+    subtitle: "Culture • Cuisine • Arts • Crafts",
+    description: "Immerse yourself in authentic Chinese culture through carefully curated luxury experiences, culinary adventures, and traditional arts. These premium tours offer intimate access to China's rich heritage and contemporary cultural scene.",
+    longDescription: "Our Premium Cultural Experiences are designed for travelers seeking authentic, high-quality cultural immersion. We work with local experts, artisans, and cultural institutions to provide access to experiences that go beyond surface-level tourism. From private museum tours to hands-on craft workshops with master artisans, these experiences offer deep cultural understanding and lasting memories.",
+    images: [
+      "/images/tours/龙井村.jpeg",
+      "/images/tours/上海豫园.jpeg",
+      "/images/tours/苏州平江路.jpeg",
+      "/images/tours/豫园.jpeg"
+    ],
+    highlights: [
+      "Access to private collections and venues",
+      "Learn from master artisans and experts",
+      "Luxury transportation and accommodations",
+      "Personalized attention and small group sizes"
+    ],
+    color: "purple",
+    experiences: [
+      {
+        title: "Culinary Masterclasses",
+        description: "Learn authentic Chinese cooking from master chefs",
+        details: ["Regional cuisine workshops", "Market tours with chefs", "Fine dining experiences", "Food styling and photography"]
+      },
+      {
+        title: "Traditional Arts & Crafts",
+        description: "Hands-on workshops with master artisans",
+        details: ["Calligraphy and painting", "Ceramics and pottery", "Silk weaving and embroidery", "Traditional musical instruments"]
+      },
+      {
+        title: "Photography Expeditions",
+        description: "Capture China's beauty with professional guidance",
+        details: ["Architectural photography", "Street and portrait photography", "Landscape and nature", "Cultural event coverage"]
+      },
+      {
+        title: "VIP Cultural Access",
+        description: "Exclusive access to cultural institutions and events",
+        details: ["Private museum tours", "Backstage theater access", "Cultural performance tickets", "Meet artists and curators"]
+      }
+    ]
+  }
+};
+
+export const CustomTourDetail: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+    tourType: id ? tourData[parseInt(id) as keyof typeof tourData]?.title : '',
+    interest: ''
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const tour = id ? tourData[parseInt(id) as keyof typeof tourData] : null;
+
+  if (!tour) {
+    return (
+      <>
+        <Navbar />
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-2xl font-medium text-gray-900 mb-4">Tour Not Found</h1>
+            <button
+              onClick={() => navigate('/')}
+              className="text-blue-700 hover:text-blue-800 font-medium"
+            >
+              Return Home
+            </button>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Here you would typically send the form data to your backend
+    console.log('Form submitted:', formData);
+    setSubmitted(true);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  return (
+    <>
+      <Navbar />
+      
+      <div className="min-h-screen bg-white">
+        {/* Back Button */}
+        <div className="container mx-auto px-6 py-8">
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            <ArrowLeftIcon className="w-5 h-5" />
+            Back to Experiences
+          </button>
+        </div>
+
+        {/* Hero Section with Images */}
+        <section className="relative">
+          <div className="grid grid-cols-2 md:grid-cols-4 h-64 md:h-96">
+            {tour.images.map((img, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: index * 0.1 }}
+                className="relative overflow-hidden"
+              >
+                <img
+                  src={img}
+                  alt={`${tour.title} ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+            ))}
+          </div>
+          
+          {/* Title Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end">
+            <div className="container mx-auto px-6 pb-12">
+              <div className="max-w-3xl">
+                <span className={`inline-block px-4 py-2 rounded-full backdrop-blur-sm bg-white/20 text-white text-sm font-medium mb-4`}>
+                  {tour.subtitle}
+                </span>
+                <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">{tour.title}</h1>
+                <p className="text-xl text-white/90">{tour.description}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Main Content */}
+        <div className="container mx-auto px-6 py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            {/* Left Column - Experiences */}
+            <div className="lg:col-span-2">
+              <div className="mb-12">
+                <h2 className="text-2xl font-medium text-gray-900 mb-6">Experience Highlights</h2>
+                <p className="text-gray-600 mb-6 leading-relaxed">{tour.longDescription}</p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                  {tour.highlights.map((highlight, index) => (
+                    <div key={index} className="flex items-start">
+                      <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mr-3 mt-1 ${
+                        tour.color === 'blue' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'
+                      }`}>
+                        ✓
+                      </div>
+                      <span className="text-gray-800">{highlight}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Detailed Experiences */}
+              <div>
+                <h2 className="text-2xl font-medium text-gray-900 mb-8">Available Experiences</h2>
+                <div className="space-y-8">
+                  {tour.experiences.map((experience, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="bg-gray-50 rounded-2xl p-6"
+                    >
+                      <div className="flex items-start justify-between mb-4">
+                        <div>
+                          <h3 className="text-xl font-medium text-gray-900 mb-2">{experience.title}</h3>
+                          <p className="text-gray-600">{experience.description}</p>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {experience.details.map((detail, idx) => (
+                          <div key={idx} className="flex items-center text-gray-700">
+                            <div className={`w-2 h-2 rounded-full mr-3 ${
+                              tour.color === 'blue' ? 'bg-blue-500' : 'bg-purple-500'
+                            }`} />
+                            {detail}
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Contact Form */}
+            <div>
+              <div className="sticky top-8">
+                <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 shadow-lg">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className={`p-3 rounded-full ${
+                      tour.color === 'blue' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'
+                    }`}>
+                      <EnvelopeIcon className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-medium text-gray-900">Inquire About This Experience</h3>
+                      <p className="text-gray-600 text-sm">Get in touch to customize your tour</p>
+                    </div>
+                  </div>
+
+                  {submitted ? (
+                    <div className="text-center py-8">
+                      <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        ✓
+                      </div>
+                      <h4 className="text-xl font-medium text-gray-900 mb-2">Thank You!</h4>
+                      <p className="text-gray-600 mb-6">
+                        We've received your inquiry and will contact you within 24 hours to discuss your custom experience.
+                      </p>
+                      <button
+                        onClick={() => setSubmitted(false)}
+                        className="text-blue-700 hover:text-blue-800 font-medium"
+                      >
+                        Send another message
+                      </button>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Your Name *
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                          placeholder="John Smith"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Email Address *
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                          placeholder="john@example.com"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Phone Number
+                        </label>
+                        <input
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                          placeholder="+1 (555) 123-4567"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          What interests you most?
+                        </label>
+                        <select
+                          name="interest"
+                          value={formData.interest}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                        >
+                          <option value="">Select an option</option>
+                          {tour.experiences.map((exp, idx) => (
+                            <option key={idx} value={exp.title}>{exp.title}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Additional Details
+                        </label>
+                        <textarea
+                          name="message"
+                          value={formData.message}
+                          onChange={handleChange}
+                          rows={4}
+                          className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                          placeholder="Tell us about your interests, group size, preferred dates, or any special requirements..."
+                        />
+                      </div>
+
+                      <input
+                        type="hidden"
+                        name="tourType"
+                        value={formData.tourType}
+                      />
+
+                      <button
+                        type="submit"
+                        className={`w-full py-4 rounded-xl font-medium text-white transition-colors ${
+                          tour.color === 'blue' 
+                            ? 'bg-blue-700 hover:bg-blue-800' 
+                            : 'bg-purple-700 hover:bg-purple-800'
+                        }`}
+                      >
+                        Request Custom Experience
+                      </button>
+
+                      <p className="text-gray-500 text-xs text-center">
+                        We'll respond within 24 hours to discuss your requirements and create a personalized itinerary.
+                      </p>
+                    </form>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Footer />
+    </>
+  );
+};

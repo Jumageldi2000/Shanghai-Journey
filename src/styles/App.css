@@ -1,0 +1,72 @@
+/* src/styles/App.css */
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+@import 'swiper/css/effect-coverflow';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #667eea, #764ba2);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #5a67d8, #6b46c1);
+}
+
+/* 确保 nav 元素没有背景色 */
+nav {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+/* 自定义类 */
+.glass-effect {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 动画类 */
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .swiper {
+    height: 250px !important;
+  }
+  
+  .swiper-slide {
+    width: 80% !important;
+  }
+}
