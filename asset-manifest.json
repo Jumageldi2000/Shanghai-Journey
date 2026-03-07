@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/Shanghai-Journey/static/css/main.da871829.css",
-    "main.js": "/Shanghai-Journey/static/js/main.ab9597c2.js",
+    "main.css": "/Shanghai-Journey/static/css/main.3798a655.css",
+    "main.js": "/Shanghai-Journey/static/js/main.02eeb97f.js",
     "index.html": "/Shanghai-Journey/index.html",
-    "main.da871829.css.map": "/Shanghai-Journey/static/css/main.da871829.css.map",
-    "main.ab9597c2.js.map": "/Shanghai-Journey/static/js/main.ab9597c2.js.map"
+    "main.3798a655.css.map": "/Shanghai-Journey/static/css/main.3798a655.css.map",
+    "main.02eeb97f.js.map": "/Shanghai-Journey/static/js/main.02eeb97f.js.map"
   },
   "entrypoints": [
-    "static/css/main.da871829.css",
-    "static/js/main.ab9597c2.js"
+    "static/css/main.3798a655.css",
+    "static/js/main.02eeb97f.js"
   ]
 }
